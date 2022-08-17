@@ -117,6 +117,25 @@
   <script>window.jQuery || document.write('<script type="text/javascript" src="/static/js/libs/jquery-1.11.1.min.js"><\/script>')</script>
   <script type="text/javascript" src="/static/js/libs/bootstrap-3.1.1.min.js" defer></script>
   <script type="text/javascript" src="/static/js/plugins.js" defer></script>
+  <script>
+    // small control of the phone number
+    elem = document.getElementById("phone");
+    if (elem) {
+      elem.onblur = function (params) {
+        let val = elem.value;
+        console.log(val);
+        let pattern = /\d{3}-\d{3}-\d{4}/g;
+        let result = val.match(pattern);
+        if(result==null){
+          alert("Phone format not correct");
+          elem.value = ""
+        }else{
+          elem.value = result;
+        }
+        console.log(result)
+      };
+    }
+  </script>
 
 </body>
 </html>
