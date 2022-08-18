@@ -64,6 +64,15 @@
                   aria-label="Search">
               </form>
               {% endif %}
+              {% if (request.endpoint == 'show_venue') %}
+              <form id="venue_search_artist" class="search" method="post" action="/venues/{{ venue.id}}/search_artist">
+                <input id="artist_search_term" class="form-control"
+                  type="search"
+                  name="artist_search_term"
+                  placeholder="Find an artist for a show at {{ venue.name }}"
+                  aria-label="Search">
+              </form>
+              {% endif %}
               {% if (request.endpoint == 'artists') or
                 (request.endpoint == 'search_artists') or
                 (request.endpoint == 'show_artist') %}

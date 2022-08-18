@@ -1,24 +1,53 @@
 {% extends 'layouts/main.html' %}
 {% block title %}New Show Listing{% endblock %}
 {% block content %}
-  <div class="form-wrapper">
-    <form method="post" class="form">
+  <div class="form-wrapper col-sm-6 col-md-6">
+    <form method="post" class="form" action="/shows/create">
       <h3 class="form-heading">List a new show</h3>
       <div class="form-group">
         <label for="artist_id">Artist ID</label>
         <small>ID can be found on the Artist's Page</small>
-        {{ form.artist_id(class_ = 'form-control', autofocus = true) }}
+        {{ form.artist_id(id_='artist_id', class_ = 'form-control', autofocus = true) }}
       </div>
       <div class="form-group">
         <label for="venue_id">Venue ID</label>
         <small>ID can be found on the Venue's Page</small>
+        {% if data %}
+        {{ form.venue_id(class_ = 'form-control', autofocus = true, readonly=true) }}
+        {% else %}
         {{ form.venue_id(class_ = 'form-control', autofocus = true) }}
+        {% endif %}
       </div>
       <div class="form-group">
           <label for="start_time">Start Time</label>
           {{ form.start_time(class_ = 'form-control', placeholder='YYYY-MM-DD HH:MM', autofocus = true) }}
         </div>
-      <input type="submit" value="Create Venue" class="btn btn-primary btn-lg btn-block">
+      <input type="submit" value="Create Show" class="btn btn-primary btn-lg btn-block">
     </form>
   </div>
+  {% if data and data.venue_id !=0 %}
+  <div class="col-sm-6 col-md-6">
+    <h3>Find {{ data.count}} Artists for search : " {{ data.search_term }} " </h3>
+    {% if data.count >=1 %}
+    <h5 style="color:red; font-weight: bold;">Make choice by cliquing an artist </h5>
+    {% endif %}
+    <ul class="items">
+      {% for artist in artists %}
+      <li>
+        <a href="#" id="{{ artist.id }}" onclick="choose_artist(this)" style="color: blue;">
+          <div class="item">
+            <h5 title="Clic to add"> ID : {{ artist.id }} ,  name : {{ artist.name }}</h5>
+          </div>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <script>
+    function choose_artist(item) {
+      artist_id = document.getElementById('artist_id')
+      artist_id.value = item.id
+    }
+  </script>
+  {% endif %}
 {% endblock %}
